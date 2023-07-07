@@ -9,28 +9,32 @@ receivers:
             - "http://*"
             - "https://*"
 
-exporters: 
-  # otlp/http exporter to export traces and metrics to Dynatrace. 
-  otlphttp/dynatrace: 
-   endpoint: "${DT_OTLP_ENDPOINT}" 
-   headers: 
-    Authorization: "Api-Token ${DT_API_TOKEN}" 
- 
-processors: 
-  # Processor to generate (delta temporality) metrics from spans. 
-  spanmetrics/dynatrace: 
-   metrics_exporter: otlphttp/dynatrace 
-   aggregation_temporality: AGGREGATION_TEMPORALITY_DELTA 
- 
-service: 
-  pipelines: 
-   # Trace pipeline for exporting to dynatrace. 
-   traces/dynatrace: 
-    receivers: [otlp] 
-    processors: [batch, spanmetrics/dynatrace] 
-    exporters: [otlphttp/dynatrace] 
-   # Metrics pipeline for exporting to dynatrace. 
-   metrics/dynatrace: 
-    receivers: [otlp] 
-    processors: [batch] 
-    exporters: [otlphttp/dynatrace]
+exporters:
+  logging:
+
+processors:
+  batch:
+  filter:
+    metrics:
+      exclude:
+        match_type: strict
+        metric_names:
+          - queueSize
+
+connectors:
+  spanmetrics:
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging, spanmetrics]
+    metrics:
+      receivers: [otlp, spanmetrics]
+      processors: [filter, batch]
+      exporters: [logging]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [logging]

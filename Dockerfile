@@ -9,5 +9,5 @@ RUN npm install @opentelemetry/sdk-node \
 RUN npm install
 COPY . .
 RUN npm install
-CMD [ "node", "--require", ".\opentelemetry.js", "app.js" ]
+CMD [ "node", "--require", "./opentelemetry.js", "app.js" ]
 EXPOSE 3000

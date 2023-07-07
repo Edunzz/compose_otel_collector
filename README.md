@@ -1,20 +1,17 @@
-# Container simple app nodejs
+# Compose collector
 
 # docker create image and upload
-docker build -t edunzz/node-app:pokemon .
+export DT_API_TOKEN=dt0c01.MY_SECRET_TOKEN
+<br>
+export DT_OTLP_ENDPOINT=https://{your-env-id}.live.dynatrace.com/api/v2/otlp
+<br>
+export OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE=delta
+<br>
+docker-compose up -d
 <br>
 docker login
 <br>
-docker push edunzz/node-app:pokemon
-<br>
-docker run -d -p 3000:3000 edunzz/node-app:pokemon
-<br>
-node --require ./opentelemetry.js app.js
-
-# Links
-http://localhost:3000/api-docs/
-<br>
-http://{IP}:3000/api-docs/
+docker push {image name}
 
 # Author
 Jose Romero

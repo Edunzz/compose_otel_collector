@@ -11,7 +11,7 @@ docker-compose up -d
 <br>
 docker login
 <br>
-docker push {image name}
+docker push edunzz/otel-collector:dynatrace
 
 # Author
 Jose Romero

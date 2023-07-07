@@ -9,7 +9,7 @@ networks:
 services:
   # OpenTelemetry Collector
   otelcol:
-    image: otel/opentelemetry-collector-contrib:latest
+    image: otel/opentelemetry-collector-contrib:0.76.1
     container_name: otel-col
     deploy:
       resources:

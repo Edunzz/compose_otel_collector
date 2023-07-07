@@ -12,30 +12,32 @@ receivers:
             - "http://*"
             - "https://*"
 
+exporters:
+  logging:
+
 processors:
   batch:
+  filter:
+    metrics:
+      exclude:
+        match_type: strict
+        metric_names:
+          - queueSize
 
-exporters:
-  otlp:
-    endpoint: otelcol:4317
-
-extensions:
-  health_check:
-  pprof:
-  zpages:
+connectors:
+  spanmetrics:
 
 service:
-  extensions: [health_check, pprof, zpages]
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [logging, spanmetrics]
     metrics:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [otlp]
+      receivers: [otlp, spanmetrics]
+      processors: [filter, batch]
+      exporters: [logging]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [logging]

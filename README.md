@@ -8,3 +8,11 @@ docker login
 docker push edunzz/node-app:pokemon
 <br>
 docker run -d -p 3000:3000 edunzz/node-app:pokemon # Levantar imagen en localhost
+
+# Links
+http://localhost:3000/api-docs/
+<br>
+http://{IP}:3000/api-docs/
+
+# Author
+Jose Romero

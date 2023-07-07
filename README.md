@@ -1,2 +1,10 @@
-# microservice_check_date
-Aplicación simple para poner como micro servicio
+# Container simple app nodejs
+
+# docker create image and upload
+docker build -t edunzz/node-app:pokemon .
+<br>
+docker login
+<br>
+docker push edunzz/node-app:pokemon
+<br>
+docker run -d -p 3000:3000 edunzz/node-app:pokemon # Levantar imagen en localhost

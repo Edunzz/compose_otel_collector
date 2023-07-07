@@ -8,6 +8,8 @@ docker login
 docker push edunzz/node-app:pokemon
 <br>
 docker run -d -p 3000:3000 edunzz/node-app:pokemon # Levantar imagen en localhost
+<br>
+node --require ./opentelemetry.js app.js
 
 # Links
 http://localhost:3000/api-docs/

@@ -1,40 +1,26 @@
-
 receivers:
   otlp:
     protocols:
       grpc:
       http:
-        cors:
-          allowed_origins:
-            - "http://*"
-            - "https://*"
 
 exporters:
-  logging:
+  logging: {}
+  otlphttp:
+    endpoint: "https://TENANT/api/v2/otlp"
+    headers:
+      Authorization: "Api-Token TOKEN"
 
 processors:
-  batch:
-  filter:
-    metrics:
-      exclude:
-        match_type: strict
-        metric_names:
-          - queueSize
-
-connectors:
-  spanmetrics:
+  batch: {}
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, spanmetrics]
+      exporters: [logging, otlphttp]
     metrics:
-      receivers: [otlp, spanmetrics]
-      processors: [filter, batch]
-      exporters: [logging]
-    logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [logging, otlphttp]

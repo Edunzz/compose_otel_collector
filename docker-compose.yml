@@ -9,17 +9,12 @@ networks:
 services:
   # OpenTelemetry Collector
   otelcol:
-    image: otel/opentelemetry-collector-contrib:0.76.1
-    container_name: otel-col
-    deploy:
-      resources:
-        limits:
-          memory: 250M
+    image: otel/opentelemetry-collector-contrib:0.70.0
+    container_name: otel-col-dt
     restart: unless-stopped
-    command: [ "--config=/etc/otelcol-config.yml","--config=/etc/otelcol-config-extras.yml"]
+    command: [ "--config=/etc/otelcol-config.yml"]
     volumes:
       - ./otelcol-config.yml:/etc/otelcol-config.yml
-      - ./otelcol-config-extras.yml:/etc/otelcol-config-extras.yml
     ports:
       - "4317"          # OTLP over gRPC receiver
       - "4318:4318"     # OTLP over HTTP receiver
